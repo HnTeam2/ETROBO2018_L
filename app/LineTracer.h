@@ -23,9 +23,6 @@ public:
     virtual ~LineTracer();
 
     void taskNormal();
-    void run();
-	void run2();
-	void run3();
 	void runOnOff();
     void runOnOff4();
 	void runOnOff99();
@@ -34,9 +31,6 @@ public:
     void runFind();
     void runBack1();
     void runBack2();
-	void run90();
-    void runLOW();
-    void run80();
 	void runAnBalance();
     void runStop();
     void runTurn();
