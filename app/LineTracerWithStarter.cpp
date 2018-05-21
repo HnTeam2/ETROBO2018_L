@@ -9,6 +9,7 @@
 #include "LineTracerWithStarter.h"
 #include "ev3api.h"
 #include "SonarSensor.h"
+#include "ConstParam.h"
 
 
 
@@ -149,14 +150,14 @@ void LineTracerWithStarter::execWalking() {
 	if(mTailWheel.getCount() < 1) mTailWheel.setPWM(0);
 	switch(count){
 		case 0:									// テイル回収
-			mLineTracer->runLOW();
+			mLineTracer->taskNormal(PID_TASK_LOW,SPEED_TASK_LOW);
 			if(mLeftWheel.getCount() > 3){
 				mTailWheel.setPWM(-50);
 				count++;
 			}
 			break;
 		case 1:									// テイル回収したあと走行する
-			mLineTracer->runLOW();
+			mLineTracer->taskNormal(PID_TASK_LOW,SPEED_TASK_LOW);
 			if(mTailWheel.getCount() == 0) mTailWheel.setPWM(0);
 			if(mLeftWheel.getCount() > 50){
 				count=2;
@@ -164,13 +165,13 @@ void LineTracerWithStarter::execWalking() {
 			}
 			break;
 		case 2:									// 第一直線
-			mLineTracer->run();
+			mLineTracer->taskNormal(PID_TASK_1,SPEED_TASK_1);
 			//if(mLeftWheel.getCount() > 2800){
 				//count=3;
 			//}
 			break;
 		case 3:									// 第1カーブ
-			mLineTracer->run();
+			mLineTracer->taskNormal(PID_TASK_1,SPEED_TASK_1);
 			if(mLeftWheel.getCount() > 7000){
 				count++;
 			}
