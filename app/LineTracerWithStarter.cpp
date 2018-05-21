@@ -150,14 +150,14 @@ void LineTracerWithStarter::execWalking() {
 	if(mTailWheel.getCount() < 1) mTailWheel.setPWM(0);
 	switch(count){
 		case 0:									// テイル回収
-			mLineTracer->taskNormal(ConstParam.PID_TASK_LOW,ConstParam.SPEED_TASK_LOW);
+			mLineTracer->taskNormal(ConstParam::PID_TASK_LOW,ConstParam::SPEED_TASK_LOW);
 			if(mLeftWheel.getCount() > 3){
 				mTailWheel.setPWM(-50);
 				count++;
 			}
 			break;
 		case 1:									// テイル回収したあと走行する
-			mLineTracer->taskNormal(ConstParam.PID_TASK_LOW,ConstParam.SPEED_TASK_LOW);
+			mLineTracer->taskNormal(ConstParam::PID_TASK_LOW,ConstParam::SPEED_TASK_LOW);
 			if(mTailWheel.getCount() == 0) mTailWheel.setPWM(0);
 			if(mLeftWheel.getCount() > 50){
 				count=2;
@@ -165,13 +165,13 @@ void LineTracerWithStarter::execWalking() {
 			}
 			break;
 		case 2:									// 第一直線
-			mLineTracer->taskNormal(ConstParam.PID_TASK_1,ConstParam.SPEED_TASK_1);
+			mLineTracer->taskNormal(ConstParam::PID_TASK_1,ConstParam::SPEED_TASK_1);
 			//if(mLeftWheel.getCount() > 2800){
 				//count=3;
 			//}
 			break;
 		case 3:									// 第1カーブ
-			mLineTracer->taskNormal(ConstParam.PID_TASK_1,ConstParam.SPEED_TASK_1);
+			mLineTracer->taskNormal(ConstParam::PID_TASK_1,ConstParam::SPEED_TASK_1);
 			if(mLeftWheel.getCount() > 7000){
 				count++;
 			}
