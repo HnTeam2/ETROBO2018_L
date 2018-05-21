@@ -32,100 +32,22 @@ LineTracer::LineTracer(const LineMonitor* lineMonitor,
 LineTracer::~LineTracer() {
 }
 
+
 /**
  * ライントレースする
  */
 /* NORMAL*/
-void LineTracer::run() {
+void taskNormal(int pidSet[3],short speed){
     if (mIsInitialized == false) {
         mBalancingWalker->init();
         mIsInitialized = true;
     }
 
     // 走行体の向きを計算する
-    mPidController->setPidFactor(1.40, 0.8, 0.1);//1.0, 0.2, 0.02
+    mPidController->setPidFactor(pidSet[0],pidSet[1],pidSet[2]);
     int direction = calcDirection();
 
-    mBalancingWalker->setCommand(80, direction);//速度
-
-    // 倒立走行を行う
-    mBalancingWalker->run();
-}
-void LineTracer::run2() {
-    if (mIsInitialized == false) {
-        mBalancingWalker->init();
-        mIsInitialized = true;
-    }
-
-    // 走行体の向きを計算する
-    mPidController->setPidFactor(3.80, 0.8, 0.15);
-    int direction = calcDirection();
-
-    mBalancingWalker->setCommand(80, direction);
-
-    // 倒立走行を行う
-    mBalancingWalker->run();
-}
-void LineTracer::run3() {
-    if (mIsInitialized == false) {
-        mBalancingWalker->init();
-        mIsInitialized = true;
-    }
-
-    // 走行体の向きを計算する
-    mPidController->setPidFactor(1.0, 0.01, 0.1);
-    int direction = calcDirection();
-
-    mBalancingWalker->setCommand(35, direction);
-
-    // 倒立走行を行う
-    mBalancingWalker->run();
-}
-
-/* 90 */
-void LineTracer::run90(){
-    if (mIsInitialized == false) {
-        mBalancingWalker->init();
-        mIsInitialized = true;
-    }
-
-    // 走行体の向きを計算する
-    mPidController->setPidFactor(0.5, 0.01, 0.05);
-    int direction = calcDirection();
-
-    mBalancingWalker->setCommand(95, direction);
-
-    // 倒立走行を行う
-    mBalancingWalker->run();
-}
-/* LOW */
-void LineTracer::runLOW(){
-    if (mIsInitialized == false) {
-        mBalancingWalker->init();
-        mIsInitialized = true;
-    }
-
-    // 走行体の向きを計算する
-    mPidController->setPidFactor(1.0, 0.01, 0.1);
-    int direction = calcDirection();
-
-    mBalancingWalker->setCommand(BalancingWalker::LOW, direction);
-
-    // 倒立走行を行う
-    mBalancingWalker->run();
-}
-
-void LineTracer::run80(){
-    if (mIsInitialized == false) {
-        mBalancingWalker->init();
-        mIsInitialized = true;
-    }
-
-	// 走行体の向きを計算する
-    mPidController->setPidFactor(1.40, 0.8, 0.1);//2.80, 0.10, 0.5);
-    int direction = calcDirection();
-
-    mBalancingWalker->setCommand(80, direction);
+    mBalancingWalker->setCommand(speed, direction);//速度
 
     // 倒立走行を行う
     mBalancingWalker->run();
