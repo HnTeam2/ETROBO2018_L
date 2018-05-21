@@ -22,6 +22,7 @@ public:
 			   ev3api::Motor& rightWheel);
     virtual ~LineTracer();
 
+    void taskRun();
     void run();
 	void run2();
 	void run3();
