@@ -10,6 +10,7 @@ APPL_CXXOBJS += \
     PidController.o \
     Calibration.o \
 	LineTracer.o \
+		ConstParam.o \
     LineTracerWithStarter.o
 
 SRCLANG := c++

@@ -37,7 +37,7 @@ LineTracer::~LineTracer() {
  * ライントレースする
  */
 /* NORMAL*/
-void LineTracer::taskNormal(const float pidSet[3],const short speed){
+void LineTracer::taskNormal(const float *pidSet,const short speed){
     if (mIsInitialized == false) {
         mBalancingWalker->init();
         mIsInitialized = true;
@@ -184,7 +184,7 @@ void LineTracer::runFind(){
         find = 0;
         time1 = 0;
     }
-	
+
 }
 /* バランス崩す状態の回転 */
 void LineTracer::runBack1(){
@@ -201,7 +201,7 @@ void LineTracer::runBack1(){
         mLeftWheel.setPWM(0);
 		mRightWheel.setPWM(0);
     }
-	
+
 }
 /* バランス崩す状態の回転 */
 void LineTracer::runBack2(){
@@ -218,7 +218,7 @@ void LineTracer::runBack2(){
         mLeftWheel.setPWM(-25);
 		mRightWheel.setPWM(25);
     }
-	
+
 }
 // バランス崩し
 void LineTracer::runAnBalance(){

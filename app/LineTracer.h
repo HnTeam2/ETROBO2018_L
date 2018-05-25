@@ -22,7 +22,7 @@ public:
 			   ev3api::Motor& rightWheel);
     virtual ~LineTracer();
 
-    void taskNormal(const float pidSet[3],const short speed);
+    void taskNormal(const float *pidSet, const short speed);
 	void runOnOff();
     void runOnOff4();
 	void runOnOff99();
@@ -34,7 +34,7 @@ public:
 	void runAnBalance();
     void runStop();
     void runTurn();
-	void edgeChage(int edge); 
+	void edgeChage(int edge);
 	int getAngle();
 	void Init();
 

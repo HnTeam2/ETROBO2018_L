@@ -11,9 +11,6 @@
 #include "SonarSensor.h"
 #include "ConstParam.h"
 
-
-
-
 /**
  * コンストラクタ
  * @param lineTracer ライントレーサ
@@ -73,10 +70,10 @@ void LineTracerWithStarter::run() {
         execWalking();
         break;
     case FIGURE:
-        execFigure();
+        // execFigure();
         break;
     case LAST:
-        execLast();
+        // execLast();
         break;
 	default:
         break;
@@ -223,7 +220,7 @@ void LineTracerWithStarter::execWalking() {
 // 				while(mTailWheel.getCount() >= 80)mTailWheel.setPWM(-2);
 // 				mTailWheel.setPWM(0);
 // 				mLeftWheel.setCount(0);
-// 				countF++;    
+// 				countF++;
 // 			}
 // 			break;
 //         case 3:
@@ -532,7 +529,7 @@ void LineTracerWithStarter::execWalking() {
 // 		case 2911:
 // 			time++;
 // 			if(time > 250){
-          
+
 // 	            countF =292;
 // 	            time = 0;
 // 	           	mLeftWheel.setCount(0);
@@ -548,7 +545,7 @@ void LineTracerWithStarter::execWalking() {
 // 		case 2921:
 // 			time++;
 // 			if(time > 250){
-          
+
 // 	            countF =293;
 // 	            time = 0;
 // 	           	mLeftWheel.setCount(0);
@@ -564,7 +561,7 @@ void LineTracerWithStarter::execWalking() {
 // 		case 2931:
 // 			time++;
 // 			if(time > 250){
-          
+
 // 	            countF =29;
 // 	            time = 0;
 // 	           	mLeftWheel.setCount(0);
@@ -583,9 +580,9 @@ void LineTracerWithStarter::execWalking() {
 //             	}
 //                 time = 0;
 //             }
-// 			//mTailWheel.setPWM(1);	
+// 			//mTailWheel.setPWM(1);
 // 			break;
-// 		 case 289:                           
+// 		 case 289:
 // 			time++;
 //           	mLeftWheel.setPWM(28);
 //             mRightWheel.setPWM(28);
@@ -597,7 +594,7 @@ void LineTracerWithStarter::execWalking() {
 //             	mRightWheel.setPWM(0);
 //                 time = 0;
 //             }
-// 			//mTailWheel.setPWM(1);	
+// 			//mTailWheel.setPWM(1);
 // 			break;
 // 				case 30:
 // 			time++;
@@ -617,7 +614,7 @@ void LineTracerWithStarter::execWalking() {
 // 			break;
 // 		case 31:
 // 			time++;
-// 			//while( mTailWheel.getCount() < 45)mTailWheel.setPWM(10);	
+// 			//while( mTailWheel.getCount() < 45)mTailWheel.setPWM(10);
 // 			//mTailWheel.setPWM(0);
 // 			mRightWheel.setPWM(0);
 //             mLeftWheel.setPWM(0);
@@ -632,7 +629,7 @@ void LineTracerWithStarter::execWalking() {
 // 			break;
 // 		case 32:
 // 			time++;
-// 			//while( mTailWheel.getCount() < 45)mTailWheel.setPWM(10);	
+// 			//while( mTailWheel.getCount() < 45)mTailWheel.setPWM(10);
 // 			//mTailWheel.setPWM(0);
 // 			mRightWheel.setPWM(-1);
 //             mLeftWheel.setPWM(-1);
@@ -703,7 +700,7 @@ void LineTracerWithStarter::execWalking() {
 // 				//mState = LAST;
 //             }
 //             break;
-            
+
 // 		case 39:
 // 			mLeftWheel.setPWM(-10);
 // 			mRightWheel.setPWM(-10);

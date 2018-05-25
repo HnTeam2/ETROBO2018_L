@@ -13,4 +13,3 @@ const short ConstParam::SPEED_TASK_3 = 35;
 const short ConstParam::SPEED_TASK_90 = 95;
 const short ConstParam::SPEED_TASK_LOW = 20;
 const short ConstParam::SPEED_TASK_80 = 80;
-
