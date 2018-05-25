@@ -37,7 +37,7 @@ LineTracer::~LineTracer() {
  * ライントレースする
  */
 /* NORMAL*/
-void LineTracer::taskNormal(float* pidSet,short speed){
+void LineTracer::taskNormal(const float pidSet[3],short speed){
     if (mIsInitialized == false) {
         mBalancingWalker->init();
         mIsInitialized = true;
