@@ -22,7 +22,7 @@ public:
 			   ev3api::Motor& rightWheel);
     virtual ~LineTracer();
 
-    void taskNormal(float pidSet[3],short speed);
+    void taskNormal(const float pidSet[3],const short speed);
 	void runOnOff();
     void runOnOff4();
 	void runOnOff99();
