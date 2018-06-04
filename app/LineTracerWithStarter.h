@@ -17,7 +17,7 @@
 
 class LineTracerWithStarter {
 public:
-	
+
     LineTracerWithStarter(LineTracer* lineTracer,
 				const Starter* starter,
 				Calibration* calibration,
@@ -28,7 +28,7 @@ public:
                 ev3api::Motor& rightWheel,
 				char* bt_data
     );
-	
+
     virtual ~LineTracerWithStarter();
 
     void run();
@@ -66,7 +66,7 @@ private:
     void execWalking();
     void execFigure();
 	void execLast();
-	void mortorControll(Motor motor, int deg, int pwm) ;
+	void mortorControll(ev3api::Motor& motor, int deg, int pwm) ;
 };
 
 #endif  // EV3_APP_LINETRACERWITHSTARTER_H_

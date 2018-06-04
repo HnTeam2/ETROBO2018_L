@@ -118,7 +118,7 @@ void LineTracerWithStarter::execCalibrationWhite() {
  * 灰キャリブレーション
  */
 void LineTracerWithStarter::execCalibrationGray() {
-	if( mCalibration->calibrationColor(mStarter->isPushed()) == true ){
+	if (mCalibration->calibrationColor(mStarter->isPushed()) == true) {
 		while(mStarter->isPushed());
 		mState = WAITING_FOR_START;
 	}
@@ -138,13 +138,12 @@ void LineTracerWithStarter::execWaitingForStart() {
 /*  走行中  */
 void LineTracerWithStarter::execWalking() {
 	static int count = 0;
-	switch(count){
+	switch(count) {
 		//走行を開始する
-
 		// 第一直線
 		case 0:
 			mLineTracer->taskNormal(ConstParam::PID_1,ConstParam::SPEED_HIGH);
-			if(mLeftWheel.getCount() > 1900){ count = 1; }
+			if (mLeftWheel.getCount() > 2000) { count = 1; }
 			break;
 
 		case 1:
@@ -155,13 +154,11 @@ void LineTracerWithStarter::execWalking() {
 
 // degは目的の角度。PWMはモータの速さで、正の値で正回転、負の値で逆回転。
 void LineTracerWithStarter::mortorControll(ev3api::Motor& motor, int deg, int pwm) {
-
+	motor.setPWM(pwm);
 	if (deg > 0){
 		while(motor.getCount() < deg);
 	}else{
 		while(motor.getCount() > deg);
 	}
-	motor.setPWM(pwm);
-	
 	motor.setPWM(0);
 }
