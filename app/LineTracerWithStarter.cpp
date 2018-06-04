@@ -86,7 +86,7 @@ void LineTracerWithStarter::run() {
 void LineTracerWithStarter::execUndefined() {
 	mTailWheel.reset();
 	mTailWheel.setCount(0);
-	tailControll(95); //テイル降ろす
+	tailControll(85); //テイル降ろす
 	//tailControll2(80);
 	mCalibration->init();
 	mState = CALIBRATION_GYRO;
@@ -135,10 +135,10 @@ void LineTracerWithStarter::execCalibrationGray() {
 void LineTracerWithStarter::execWaitingForStart() {
 	if (mStarter->isPushed() || *mBt_data == '1') {//ボタン押すＯＲブルーツースから１送るとスタート
 		mCalibration->calibrateLineThreshold();
+		tailControll(100);
 		mState = WALKING;
 	}
 }
-
 /**
  * 走行中状態の処理
  */
@@ -158,20 +158,20 @@ void LineTracerWithStarter::execWalking() {
 			if(mTailWheel.getCount() == 0) mTailWheel.setPWM(0);
 			if(mLeftWheel.getCount() > 50){
 				count=2;
-				//mState = FIGURE;
+				// mState = FIGURE;
 			}
 			break;
 		case 2:									// 第一直線
-			mLineTracer->taskNormal(ConstParam::PID_TASK_1,ConstParam::SPEED_TASK_1);
-			//if(mLeftWheel.getCount() > 2800){
-				//count=3;
-			//}
+			mLineTracer->taskNormal(ConstParam::PID_TASK_90,ConstParam::SPEED_TASK_90);
+			if(mLeftWheel.getCount() > 1800){
+				count=3;
+			}
 			break;
 		case 3:									// 第1カーブ
-			mLineTracer->taskNormal(ConstParam::PID_TASK_1,ConstParam::SPEED_TASK_1);
-			if(mLeftWheel.getCount() > 7000){
-				count++;
-			}
+			mLineTracer->taskNormal(ConstParam::PID_TASK_3,ConstParam::SPEED_TASK_3);
+			// if(mLeftWheel.getCount() > 7000){
+			// 	count++;
+			// }
 			break;
 	}
 }
@@ -182,7 +182,7 @@ void LineTracerWithStarter::execWalking() {
 /**
  * 難所１の処理
  */
-
+//
 // void LineTracerWithStarter::execFigure() {
 // 	static int32_t countF = 0;
 // 	static int32_t time = 0;
@@ -529,7 +529,7 @@ void LineTracerWithStarter::execWalking() {
 // 		case 2911:
 // 			time++;
 // 			if(time > 250){
-
+//
 // 	            countF =292;
 // 	            time = 0;
 // 	           	mLeftWheel.setCount(0);
@@ -545,7 +545,7 @@ void LineTracerWithStarter::execWalking() {
 // 		case 2921:
 // 			time++;
 // 			if(time > 250){
-
+//
 // 	            countF =293;
 // 	            time = 0;
 // 	           	mLeftWheel.setCount(0);
@@ -561,7 +561,7 @@ void LineTracerWithStarter::execWalking() {
 // 		case 2931:
 // 			time++;
 // 			if(time > 250){
-
+//
 // 	            countF =29;
 // 	            time = 0;
 // 	           	mLeftWheel.setCount(0);
@@ -700,7 +700,7 @@ void LineTracerWithStarter::execWalking() {
 // 				//mState = LAST;
 //             }
 //             break;
-
+//
 // 		case 39:
 // 			mLeftWheel.setPWM(-10);
 // 			mRightWheel.setPWM(-10);
@@ -722,7 +722,7 @@ void LineTracerWithStarter::execWalking() {
 // 		break;
 // 	}
 // }
-
+//
 // /**
 //  * 難所２の処理
 //  */
