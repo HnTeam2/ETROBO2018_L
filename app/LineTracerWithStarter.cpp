@@ -69,7 +69,7 @@ void LineTracerWithStarter::run() {
     case WALKING:
         execWalking();
         break;
-		
+
 	default:
         break;
     }
@@ -131,45 +131,30 @@ void LineTracerWithStarter::execWaitingForStart() {
 		mCalibration->calibrateLineThreshold();
 		tailControll(100);
 		// tailモータの押し出す力によって、左右ホイールが3°動いたら次のStateに移る
-		if(mLeftWheel.getCount() > 3 || mRightWheel.getCount() > 3){
-			tailControll(-152);
-			mState = WALKING;
-			return
-		}else{
-			mState = WAITING_FOR_START
-		}
+		mTailWheel.setPWM(-50);
+		mState = WALKING;
 	}
 }
 
 /*  走行中  */
 void LineTracerWithStarter::execWalking() {
 	static int count = 0;
-	if(mTailWheel.getCount() < 1) mTailWheel.setPWM(0);
 	switch(count){
-
 		//走行を開始する
-		case 1:									
+		case 0:
 			mLineTracer->taskNormal(ConstParam::PID_TASK_LOW,ConstParam::SPEED_TASK_LOW);
 			if(mTailWheel.getCount() == 0) mTailWheel.setPWM(0);
-			if(mLeftWheel.getCount() > 50){
-				count=2;
-				// mState = FIGURE;
-			}
+			if(mLeftWheel.getCount() > 50){	count=2; }
 			break;
 
 		// 第一直線
-		case 2:									
+		case 1:
 			mLineTracer->taskNormal(ConstParam::PID_TASK_90,ConstParam::SPEED_TASK_90);
-			if(mLeftWheel.getCount() > 1800){
-				count=3;
-			}
+			if(mLeftWheel.getCount() > 1800){ count=3; }
 			break;
 
-		case 3:									
+		case 2:
 			mLineTracer->taskNormal(ConstParam::PID_TASK_3,ConstParam::SPEED_TASK_3);
-			// if(mLeftWheel.getCount() > 7000){
-			// 	count++;
-			// }
 			break;
 	}
 }
@@ -177,7 +162,7 @@ void LineTracerWithStarter::execWalking() {
 // degは目的の角度。PWMはモータの速さで、正の値で正回転、負の値で逆回転。
 void LineTracerWithStarter::tailControll(int deg) {
 	if(deg >= 10)mTailWheel.setPWM(50);
-	else if(deg == 0)mTailWheel.setPWM(-50);
+	else if(deg <= 0)mTailWheel.setPWM(-50);
 	while(1){
 		if(mTailWheel.getCount() > deg)break;
 	}
