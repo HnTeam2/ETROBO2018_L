@@ -81,8 +81,7 @@ void LineTracerWithStarter::run() {
 void LineTracerWithStarter::execUndefined() {
 	mTailWheel.reset();
 	mTailWheel.setCount(0);
-	tailControll(85); //テイル降ろす
-	//tailControll2(80);
+	mortorControll(mTailWheel,85,50); //テイル降ろす
 	mCalibration->init();
 	mState = CALIBRATION_GYRO;
 }
@@ -129,7 +128,7 @@ void LineTracerWithStarter::execCalibrationGray() {
 void LineTracerWithStarter::execWaitingForStart() {
 	if (mStarter->isPushed() || *mBt_data == '1') {//ボタン押すＯＲブルーツースから１送るとスタート
 		mCalibration->calibrateLineThreshold();
-		tailControll(100);
+		mortorControll(mTailWheel,100,50);
 		// tailモータの押し出す力によって、左右ホイールが3°動いたら次のStateに移る
 		mTailWheel.setPWM(-50);
 		mState = WALKING;
@@ -141,30 +140,28 @@ void LineTracerWithStarter::execWalking() {
 	static int count = 0;
 	switch(count){
 		//走行を開始する
-		case 0:
-			mLineTracer->taskNormal(ConstParam::PID_TASK_LOW,ConstParam::SPEED_TASK_LOW);
-			if(mTailWheel.getCount() == 0) mTailWheel.setPWM(0);
-			if(mLeftWheel.getCount() > 50){	count=2; }
-			break;
 
 		// 第一直線
-		case 1:
-			mLineTracer->taskNormal(ConstParam::PID_TASK_90,ConstParam::SPEED_TASK_90);
-			if(mLeftWheel.getCount() > 1800){ count=3; }
+		case 0:
+			mLineTracer->taskNormal(ConstParam::PID_1,ConstParam::SPEED_HIGH);
+			if(mLeftWheel.getCount() > 1900){ count = 1; }
 			break;
 
-		case 2:
-			mLineTracer->taskNormal(ConstParam::PID_TASK_3,ConstParam::SPEED_TASK_3);
+		case 1:
+			mLineTracer->taskNormal(ConstParam::PID_2,ConstParam::SPEED_MIDDLE);
 			break;
 	}
 }
 
 // degは目的の角度。PWMはモータの速さで、正の値で正回転、負の値で逆回転。
-void LineTracerWithStarter::tailControll(int deg) {
-	if(deg >= 10)mTailWheel.setPWM(50);
-	else if(deg <= 0)mTailWheel.setPWM(-50);
-	while(1){
-		if(mTailWheel.getCount() > deg)break;
+void LineTracerWithStarter::mortorControll(ev3api::Motor& motor, int deg, int pwm) {
+
+	if (deg > 0){
+		while(motor.getCount() < deg);
+	}else{
+		while(motor.getCount() > deg);
 	}
-	mTailWheel.setPWM(0);
+	motor.setPWM(pwm);
+	
+	motor.setPWM(0);
 }

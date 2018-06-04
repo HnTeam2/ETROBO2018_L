@@ -66,8 +66,7 @@ private:
     void execWalking();
     void execFigure();
 	void execLast();
-	void tailControll(int deg);
-	void tailControll2(int deg);
+	void mortorControll(Motor motor, int deg, int pwm) ;
 };
 
 #endif  // EV3_APP_LINETRACERWITHSTARTER_H_
