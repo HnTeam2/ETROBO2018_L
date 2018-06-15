@@ -66,9 +66,13 @@ void LineTracerWithStarter::run() {
     case WAITING_FOR_START:
         execWaitingForStart();
         break;
-    case WALKING:
-        execWalking();
+    case WALKING_LEFT:
+        execWalkingLeft();
         break;
+
+	case WALKING_RIGHT:
+		execWalkingRight();
+		break;
 
 	default:
         break;
@@ -126,27 +130,94 @@ void LineTracerWithStarter::execCalibrationGray() {
 
 /* スタートダッシュ */
 void LineTracerWithStarter::execWaitingForStart() {
-	if (mStarter->isPushed() || *mBt_data == '1') {//ボタン押すＯＲブルーツースから１送るとスタート
+	if (mStarter->isPushed() || *mBt_data == 'L' || *mBt_data == 'R') {//ボタン押すＯＲブルーツースから１送るとスタート
 		mCalibration->calibrateLineThreshold();
-		mortorControll(mTailWheel,100,50);
+		mortorControll(mTailWheel,100,60);
 		// tailモータの押し出す力によって、左右ホイールが3°動いたら次のStateに移る
-		mTailWheel.setPWM(-50);
-		mState = WALKING;
+		mTailWheel.setPWM(-60);
+		switch (*mBt_data) {
+			case 'L':
+				mState = WALKING_LEFT;
+				break;
+
+			case 'R':
+				mState = WALKING_RIGHT;
+				break;
+
+			default:
+				mState = WAITING_FOR_START;
+		}
 	}
 }
 
 /*  走行中  */
-void LineTracerWithStarter::execWalking() {
+void LineTracerWithStarter::execWalkingLeft() {
 	static int count = 0;
 	switch(count) {
 		//走行を開始する
-		// 第一直線
+		case 0:
+			mLineTracer->taskNormal(ConstParam::PID_1,ConstParam::SPEED_HIGH);
+			if (mLeftWheel.getCount() > 2700) { count = 1; }
+			break;
+
+		case 1:
+			mLineTracer->taskNormal(ConstParam::PID_2,ConstParam::SPEED_MIDDLE);
+			if (mLeftWheel.getCount() > 4140) { count = 2; }
+			break;
+
+		case 2:
+		mLineTracer->taskNormal(ConstParam::PID_1,ConstParam::SPEED_HIGH);
+		if (mLeftWheel.getCount() > 5940) { count = 3; }
+		break;
+
+		case 3:
+			mLineTracer->taskNormal(ConstParam::PID_2,ConstParam::SPEED_MIDDLE);
+			if (mLeftWheel.getCount() > 7840) { count = 4; }
+			break;
+
+		case 4:
+			mLineTracer->taskNormal(ConstParam::PID_1,ConstParam::SPEED_HIGH);
+			if (mLeftWheel.getCount() > 9940) { count = 5; }
+			break;
+
+		//ルックアップゲートへ分岐
+		case 5:
+			mLineTracer->taskNormal(ConstParam::PID_2,ConstParam::SPEED_MIDDLE);
+			break;
+	}
+}
+
+void LineTracerWithStarter::execWalkingRight() {
+	static int count = 0;
+	switch(count) {
+		//走行を開始する
 		case 0:
 			mLineTracer->taskNormal(ConstParam::PID_1,ConstParam::SPEED_HIGH);
 			if (mLeftWheel.getCount() > 2000) { count = 1; }
 			break;
 
 		case 1:
+			mLineTracer->taskNormal(ConstParam::PID_2,ConstParam::SPEED_MIDDLE);
+			if (mLeftWheel.getCount() > 3800) { count = 2; }
+			break;
+
+		case 2:
+		mLineTracer->taskNormal(ConstParam::PID_1,ConstParam::SPEED_HIGH);
+		if (mLeftWheel.getCount() > 6400) { count = 3; }
+		break;
+
+		case 3:
+			mLineTracer->taskNormal(ConstParam::PID_2,ConstParam::SPEED_MIDDLE);
+			if (mLeftWheel.getCount() > 7500) { count = 4; }
+			break;
+
+		case 4:
+			mLineTracer->taskNormal(ConstParam::PID_1,ConstParam::SPEED_HIGH);
+			if (mLeftWheel.getCount() > 10350) { count = 5; }
+			break;
+
+		//シーソーへ分岐
+		case 5:
 			mLineTracer->taskNormal(ConstParam::PID_2,ConstParam::SPEED_MIDDLE);
 			break;
 	}

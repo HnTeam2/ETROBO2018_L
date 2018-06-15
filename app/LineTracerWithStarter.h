@@ -41,7 +41,8 @@ private:
         CALIBRATION_WHITE,
     	CALIBRATION_GRAY,
         WAITING_FOR_START,
-        WALKING,
+        WALKING_LEFT,
+        WALKING_RIGHT,
     	FIGURE,
     	LAST
     };
@@ -63,7 +64,8 @@ private:
     void execCalibrationWhite();
 	void execCalibrationGray();
     void execWaitingForStart();
-    void execWalking();
+    void execWalkingRight();
+    void execWalkingLeft();
     void execFigure();
 	void execLast();
 	void mortorControll(ev3api::Motor& motor, int deg, int pwm) ;
